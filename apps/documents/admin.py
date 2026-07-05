@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Document
+from .models import Document, DocumentChunk
 from apps.documents.services.document_service import DocumentService
 
 
@@ -21,3 +21,12 @@ class DocumentAdmin(admin.ModelAdmin):
 
         if not change:
             DocumentService.process_document(obj)
+
+@admin.register(DocumentChunk)
+class DocumentChunkAdmin(admin.ModelAdmin):
+    list_display = (
+        "document",
+        "chunk_index",
+        "content",
+        "embedding",
+    )

@@ -32,5 +32,10 @@ class DocumentChunk(BaseModel):
 
     chunk_index = models.PositiveIntegerField()
 
+    embedding = models.JSONField(
+        null=True,
+        blank=True,
+    )
+
     def __str__(self):
         return f"{self.document.title} - Chunk {self.chunk_index}"
