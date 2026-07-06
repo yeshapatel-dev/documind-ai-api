@@ -3,24 +3,32 @@ from sentence_transformers import SentenceTransformer
 
 class EmbeddingService:
     """
-    Service for generating text embeddings using Sentence Transformers.
+    Service for generating sentence embeddings.
     """
 
-    # Using the "all-MiniLM-L6-v2" model for generating embeddings.
-    # load the model once and reuse it for generating embeddings.
-    MODEL = SentenceTransformer(
-        "all-MiniLM-L6-v2"
-    )
+    _model = SentenceTransformer("all-MiniLM-L6-v2")
 
-    @staticmethod
-    def generate_embeddings(texts: list[str]) -> list[list[float]]:
+    @classmethod
+    def generate_embeddings(
+        cls,
+        texts: list[str],
+    ) -> list[list[float]]:
         """
-        Generate embeddings for a list of texts.
+        Generate embeddings for multiple texts.
         """
 
-        embeddings = EmbeddingService.MODEL.encode(
+        return cls._model.encode(
             texts,
             convert_to_numpy=True,
-        )
+        ).tolist()
 
-        return embeddings.tolist()
+    @classmethod
+    def generate_embedding(
+        cls,
+        text: str,
+    ) -> list[float]:
+        """
+        Generate embedding for a single text.
+        """
+
+        return cls.generate_embeddings([text])[0]
