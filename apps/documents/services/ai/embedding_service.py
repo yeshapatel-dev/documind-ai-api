@@ -9,10 +9,7 @@ class EmbeddingService:
     _model = SentenceTransformer("all-MiniLM-L6-v2")
 
     @classmethod
-    def generate_embeddings(
-        cls,
-        texts: list[str],
-    ) -> list[list[float]]:
+    def generate_embeddings(cls, texts: list[str]) -> list[list[float]]:
         """
         Generate embeddings for multiple texts.
         """
@@ -23,10 +20,7 @@ class EmbeddingService:
         ).tolist()
 
     @classmethod
-    def generate_embedding(
-        cls,
-        text: str,
-    ) -> list[float]:
+    def generate_embedding( cls, text: str) -> list[float]:
         """
         Generate embedding for a single text.
         """

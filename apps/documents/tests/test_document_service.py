@@ -9,6 +9,9 @@ from apps.documents.services.document_service import DocumentService
 
 @pytest.mark.django_db
 class TestDocumentService:
+    """
+    test for document service.
+    """
 
     TITLE = "Test PDF"
     EXTRACTED_TEXT = "This is extracted text."
@@ -21,7 +24,7 @@ class TestDocumentService:
     @patch("apps.documents.services.document_service.PDFExtractService.extract_text")
     def test_should_process_document_successfully(self, mock_extract_text, mock_chunk_text):
         """test that the process document method extracts text, splits chunks, saves the document and creates document chunks."""
-        
+
         # Arrange
         mock_extract_text.return_value = self.EXTRACTED_TEXT
         mock_chunk_text.return_value = self.CHUNKS
@@ -44,8 +47,10 @@ class TestDocumentService:
         assert document.content == self.EXTRACTED_TEXT
         assert document.chunks.count() == len(self.CHUNKS)
 
-        assert document.chunks.first().content == self.CHUNKS[0]
-        assert document.chunks.last().content == self.CHUNKS[1]
+        saved_chunks = document.chunks.order_by("chunk_index")
+
+        assert saved_chunks[0].content == self.CHUNKS[0]
+        assert saved_chunks[1].content == self.CHUNKS[1]
 
         mock_extract_text.assert_called_once_with(document.file.path)
         mock_chunk_text.assert_called_once_with(self.EXTRACTED_TEXT)

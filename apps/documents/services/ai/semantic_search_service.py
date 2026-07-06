@@ -10,11 +10,7 @@ class SemanticSearchService:
     """
 
     @staticmethod
-    def search(
-        chunks,
-        question: str,
-        top_k: int = 5,
-    ):
+    def search(chunks, question: str, top_k: int = 5):
         """
         Return the most relevant chunks with similarity scores.
         """
@@ -32,12 +28,7 @@ class SemanticSearchService:
                 [chunk.embedding],
             )[0][0]
 
-            scored_chunks.append(
-                (
-                    score,
-                    chunk,
-                )
-            )
+            scored_chunks.append((score, chunk))
 
         scored_chunks.sort(
             key=lambda item: item[0],
