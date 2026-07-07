@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from apps.documents.api.v1.serializers.chat_serializer import ChatSerializer
 from apps.documents.models import Document
 from apps.documents.services.ai.ai_chat_service import AIChatService
-from apps.documents.services.ai.llm.gemini_service import GeminiService
 
 
 class ChatAPIView(APIView):
@@ -26,9 +25,7 @@ class ChatAPIView(APIView):
             id=serializer.validated_data["document_id"],
         )
 
-        answer = AIChatService(
-            llm_service=GeminiService(),
-        ).ask(
+        answer = AIChatService().ask(
             document=document,
             question=serializer.validated_data["question"],
         )
