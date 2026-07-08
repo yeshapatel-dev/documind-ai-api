@@ -43,7 +43,6 @@ class TestChatAPIView:
         response = self.client.post(
             self.URL,
             {
-                "document_id": str(self.document.id),
                 "question": self.QUESTION,
             },
             format="json",
@@ -57,27 +56,8 @@ class TestChatAPIView:
         }
 
         mock_ai_chat.assert_called_once_with(
-            document=self.document,
             question=self.QUESTION,
         )
-
-    def test_should_return_400_for_invalid_document(self):
-        """
-        Test that the API returns 400 for an invalid document id.
-        """
-
-        response = self.client.post(
-            self.URL,
-            {
-                "document_id": "00000000-0000-0000-0000-000000000000",
-                "question": self.QUESTION,
-            },
-            format="json",
-        )
-
-        assert response.status_code == 400
-
-        assert "document_id" in response.json()
 
     def test_should_return_400_when_question_is_missing(self):
         """
@@ -86,9 +66,7 @@ class TestChatAPIView:
 
         response = self.client.post(
             self.URL,
-            {
-                "document_id": str(self.document.id),
-            },
+            {},
             format="json",
         )
 

@@ -68,7 +68,6 @@ class TestAIChatService:
 
         # Act
         response = self.ai_chat_service.ask(
-            document=self.document,
             question=self.QUESTION,
         )
 
