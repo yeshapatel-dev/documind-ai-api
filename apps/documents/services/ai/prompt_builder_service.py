@@ -20,8 +20,13 @@ class PromptBuilderService:
         prompt = f"""
                 You are a helpful AI assistant.
 
-                Answer the user's question ONLY using the context below.
+                Answer the user's question ONLY using the provided document context.
 
+                If multiple documents contain relevant information,
+                combine the information into a single answer.
+
+                Do not make up facts.
+                
                 If the answer cannot be found in the context, reply:
                 "I couldn't find that information in the provided documents."
 

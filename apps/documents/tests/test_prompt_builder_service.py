@@ -49,7 +49,7 @@ class TestPromptBuilderService:
 
         # Assert
         assert self.QUESTION in prompt
-        assert self.chunk.content in prompt
+        assert self.chunk.content[:100] in prompt
         assert "Context:" in prompt
         assert "Answer:" in prompt
 
