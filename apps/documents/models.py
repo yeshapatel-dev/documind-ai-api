@@ -39,3 +39,19 @@ class DocumentChunk(BaseModel):
 
     def __str__(self):
         return f"{self.document.title} - Chunk {self.chunk_index}"
+
+
+class Chat(BaseModel):
+    """
+    Stores a question and AI generated answer.
+    """
+
+    question = models.TextField()
+
+    answer = models.TextField()
+
+    class Meta:
+        ordering = ["-uploaded_at"]
+
+    def __str__(self):
+        return self.question[:50]

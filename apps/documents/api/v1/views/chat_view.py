@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.documents.api.v1.serializers.chat_serializer import ChatSerializer
-from apps.documents.services.ai.ai_chat_service import AIChatService
+from apps.documents.api.v1.serializers.chat_serializer import ChatSerializer, ChatHistorySerializer
+from apps.documents.services.chat_service import ChatService
 
 
 class ChatAPIView(APIView):
@@ -21,10 +21,27 @@ class ChatAPIView(APIView):
         serializer.is_valid(raise_exception=True)
 
 
-        answer = AIChatService().ask(
+        answer = ChatService().ask(
             question=serializer.validated_data["question"],
         )
 
         return Response(
             {"answer": answer}, status=status.HTTP_200_OK
+        )
+    
+    def get(self, request):
+        """
+        Return chat history.
+        """
+
+        chats = ChatService().get_history()
+
+        serializer = ChatHistorySerializer(
+            chats,
+            many=True,
+        )
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
         )
